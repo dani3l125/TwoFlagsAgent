@@ -7,6 +7,8 @@ import socket
 import sys
 
 if __name__ == "__main__":
+    #
+
     # Initialize flags board
     board = FBoard()
 
@@ -15,5 +17,6 @@ if __name__ == "__main__":
     window = MainWindow(board)
     window.show()
     app.exec()
+
 
 
