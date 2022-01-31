@@ -5,7 +5,6 @@ import time
 import numpy as np
 import math
 import Board
-from multiprocessing import Pool
 
 
 class Graph:
