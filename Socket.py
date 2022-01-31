@@ -1,8 +1,8 @@
 import socket
 import sys
 
-port_ip = 10000  # TODO: get from Shay
-MSGLEN = sys.getsizeof('aaaa')
+port_ip = 0000  # TODO: get from Shay
+MSGLEN = sys.getsizeof('Setup WB4 WA3 WC2 BG7 WD4 BG6 BE7 WB4 WA3 WC2 BG7 WD4 BG6 BE7 BG6 BE7 BLACK')
 
 class Socket:
     """
@@ -17,34 +17,29 @@ class Socket:
             self.sock = sock
 
     def connect(self, host='localhost', port=port_ip):
-        server_address = (host, port)
+        server_address = (host, int(port))
         self.sock.connect(server_address)
         print(sys.stderr, 'starting up on %s port %s' % server_address)
-        self.sock.bind(server_address)
+        #self.sock.bind(server_address)
         msg = "Welcome"
         if self.recieve(msg) != msg:  # maybe unnecessary
             raise RuntimeError("Welcome message expected")
 
-    def recieve(self, msg = None):  # TODO: find correct messages sizes
-        chunks = []
-        bytes_recd = 0
+    def recieve(self, msg=None):
         if msg is None:
             msg_len = MSGLEN
         else:
             msg_len = sys.getsizeof(msg)
-        while bytes_recd < msg_len:
-            # Recieve data in small chunks
-            chunk = self.sock.recv(min(msg_len - bytes_recd, 2048))
-            if chunk == b'':
-                raise RuntimeError("Socket connection broken")
-            chunks.append(chunk)
-            bytes_recd = bytes_recd + len(chunk)
-        return b''.join(chunks)
+        chunk = self.sock.recv(msg_len)
+        if chunk == b'':
+            raise RuntimeError("Socket connection broken")
+        return chunk.decode("utf-8").rstrip("\n")
 
     def send(self, msg):
+        msg += '\n'
         totalsent = 0
-        while totalsent < sys.getsizeof(msg):
-            sent = self.sock.send(msg[totalsent:])
+        while totalsent < len(msg):
+            sent = self.sock.send(bytes(msg[totalsent:], 'UTF-8'))
             if sent == 0:
                 raise RuntimeError("socket connection broken")
             totalsent = totalsent + sent
