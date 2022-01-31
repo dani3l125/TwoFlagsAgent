@@ -26,7 +26,7 @@ Before running make sure to ```pip install -r requirements.txt``` on a python3.9
 
 To play, run ```python Game.py```.
 
-##Arguments
+### Arguments
 
 Default arguments will execute a game against a server, according to the protocol below.
 
